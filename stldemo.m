@@ -14,7 +14,7 @@ tic
 % suitable for use with MATLAB's PATCH graphics object.
 
 % Import an STL mesh, returning a PATCH-compatible face-vertex structure
-fv = stlread('ÂÖì±Å×¹âÃæ.STL');
+fv = stlread('è½®æ¯‚æŠ›å…‰é¢.STL');
 
 
 %% Render
@@ -39,25 +39,25 @@ view([70 20]);
 
 clear patch_fv;
 
-%% ´¢´æµãÏà¹ØÐÅÏ¢  point
+%% å‚¨å­˜ç‚¹ç›¸å…³ä¿¡æ¯  point
 
 
-[ point.xyz,~,fv.sort_tag ] = unique(fv.vertices,'rows'); % point.xyz Îª²»ÖØ¸´×ø±êÐÂµã fv.sort_tag Îª¾ÉµãÔÚÐÂµãÖÐËù´¦µÄÎ»ÖÃ
+[ point.xyz,~,fv.sort_tag ] = unique(fv.vertices,'rows'); % point.xyz ä¸ºä¸é‡å¤åæ ‡æ–°ç‚¹ fv.sort_tag ä¸ºæ—§ç‚¹åœ¨æ–°ç‚¹ä¸­æ‰€å¤„çš„ä½ç½®
 
 % point.tag = zeros(length( point.xyz ),1);
 % for i = 1:1:length( point.xyz )
 % point.tag(i) = i;
 % end
 
-%% ±éÀúÃ¿¸öÃæ
+%% éåŽ†æ¯ä¸ªé¢
 pos_xyz = zeros( 20000,3) ;
 
-fv.combination = zeros( length(fv.sort_tag) ,2);  % µã×éºÏµÄ¿ÉÄÜÐÔ
+fv.combination = zeros( length(fv.sort_tag) ,2);  % ç‚¹ç»„åˆçš„å¯èƒ½æ€§
 [extremum.x_max,extremum.x_min,extremum.y_max,extremum.y_min,extremum.z_max,extremum.z_min] =...
-    deal( max(point.xyz(:,1)),min(point.xyz(:,1)),max(point.xyz(:,2)),min(point.xyz(:,2)),max(point.xyz(:,3)),min(point.xyz(:,3)) ); % ¼«Öµextremum
+    deal( max(point.xyz(:,1)),min(point.xyz(:,1)),max(point.xyz(:,2)),min(point.xyz(:,2)),max(point.xyz(:,3)),min(point.xyz(:,3)) ); % æžå€¼extremum
 
 length_d.x = 1;length_d.y = 80;length_d.z = 40;
-length_d.subsection_z = linspace(extremum.z_min,extremum.z_max,length_d.z+1); %Z·½ÏòµÄ·Ö¶ÎÇé¿ö subsection ·Ö¶Î
+length_d.subsection_z = linspace(extremum.z_min,extremum.z_max,length_d.z+1); %Zæ–¹å‘çš„åˆ†æ®µæƒ…å†µ subsection åˆ†æ®µ
 
 for i = 1:1:size(fv.faces,1)
     
@@ -65,18 +65,18 @@ for i = 1:1:size(fv.faces,1)
     [X2,Y2,Z2] = deal( fv.vertices( fv.faces( i ,2) ,1) , fv.vertices( fv.faces( i ,2) ,2) ,fv.vertices( fv.faces( i ,2) ,3) );
     [X3,Y3,Z3] = deal( fv.vertices( fv.faces( i ,3) ,1) , fv.vertices( fv.faces( i ,3) ,2) ,fv.vertices( fv.faces( i ,3) ,3) );
        
-    for i_side =1:1:3 %Ò»¸öÃæ¶ÔÓ¦ÈýÌõ±ß
+    for i_side =1:1:3 %ä¸€ä¸ªé¢å¯¹åº”ä¸‰æ¡è¾¹
         switch i_side
             
             case 1  % i_side = 1
-                j = sum(fv.combination( :,1) ~= 0) + 1; %·Ç0ÔªËØµÄ¸öÊý
+                j = sum(fv.combination( :,1) ~= 0) + 1; %éž0å…ƒç´ çš„ä¸ªæ•°
                 a = min( fv.sort_tag( fv.faces(i,1) ) ,fv.sort_tag( fv.faces(i,2) ) );
                 b = max( fv.sort_tag( fv.faces(i,1) ) ,fv.sort_tag( fv.faces(i,2) ) );
                 
-                if ismember(fv.combination, [a b],'rows') == 0 %È¥³ýÖØ¸´½»Ïß
+                if ismember(fv.combination, [a b],'rows') == 0 %åŽ»é™¤é‡å¤äº¤çº¿
                     fv.combination(j,1) = a; fv.combination(j,2) = b;
 
-                    section_z = discretize([Z1 Z2],length_d.subsection_z); % SectionÇø¼ä  discretize ×ó±ÕÓÒ¿ªÇø¼ä
+                    section_z = discretize([Z1 Z2],length_d.subsection_z); % SectionåŒºé—´  discretize å·¦é—­å³å¼€åŒºé—´
                     section_z_a = min( section_z(1),section_z(2) ); section_z_b = max( section_z(1),section_z(2) );
                     
                     if section_z_b == length_d.z
@@ -87,7 +87,7 @@ for i = 1:1:size(fv.faces,1)
                         Z = length_d.subsection_z(tag_subsection);
                         
                         if Z > max([Z1,Z2]) || Z < min([Z1,Z2])
-                            % ÎÞ½»µã
+                            % æ— äº¤ç‚¹
                         else
                             
                             sum_pos_i = sum(pos_xyz( :,1) ~= 0) + 1;
@@ -105,14 +105,14 @@ for i = 1:1:size(fv.faces,1)
                 end
 
            case 2  % i_side = 2
-                j = sum(fv.combination( :,1) ~= 0) + 1; %·Ç0ÔªËØµÄ¸öÊý
+                j = sum(fv.combination( :,1) ~= 0) + 1; %éž0å…ƒç´ çš„ä¸ªæ•°
                 a = min( fv.sort_tag( fv.faces(i,1) ) ,fv.sort_tag( fv.faces(i,3) ) );
                 b = max( fv.sort_tag( fv.faces(i,1) ) ,fv.sort_tag( fv.faces(i,3) ) );
                 
-                if ismember(fv.combination, [a b],'rows') == 0 %È¥³ýÖØ¸´½»Ïß
+                if ismember(fv.combination, [a b],'rows') == 0 %åŽ»é™¤é‡å¤äº¤çº¿
                     fv.combination(j,1) = a; fv.combination(j,2) = b;
 
-                    section_z = discretize([Z1 Z3],length_d.subsection_z); % SectionÇø¼ä  discretize ×ó±ÕÓÒ¿ªÇø¼ä
+                    section_z = discretize([Z1 Z3],length_d.subsection_z); % SectionåŒºé—´  discretize å·¦é—­å³å¼€åŒºé—´
                     section_z_a = min( section_z(1),section_z(2) ); section_z_b = max( section_z(1),section_z(2) );
                     
                     if section_z_b == length_d.z
@@ -123,7 +123,7 @@ for i = 1:1:size(fv.faces,1)
                         Z = length_d.subsection_z(tag_subsection);
                         
                         if Z > max([Z1,Z3]) || Z < min([Z1,Z3])
-                            % ÎÞ½»µã
+                            % æ— äº¤ç‚¹
                         else
                             
                             sum_pos_i = sum(pos_xyz( :,1) ~= 0) + 1;
@@ -142,14 +142,14 @@ for i = 1:1:size(fv.faces,1)
 
 
            case 3  % i_side = 3
-                j = sum(fv.combination( :,1) ~= 0) + 1; %·Ç0ÔªËØµÄ¸öÊý
+                j = sum(fv.combination( :,1) ~= 0) + 1; %éž0å…ƒç´ çš„ä¸ªæ•°
                 a = min( fv.sort_tag( fv.faces(i,2) ) ,fv.sort_tag( fv.faces(i,3) ) );
                 b = max( fv.sort_tag( fv.faces(i,2) ) ,fv.sort_tag( fv.faces(i,3) ) );
                 
-                if ismember(fv.combination, [a b],'rows') == 0 %È¥³ýÖØ¸´½»Ïß
+                if ismember(fv.combination, [a b],'rows') == 0 %åŽ»é™¤é‡å¤äº¤çº¿
                     fv.combination(j,1) = a; fv.combination(j,2) = b;
 
-                    section_z = discretize([Z2 Z3],length_d.subsection_z); % SectionÇø¼ä  discretize ×ó±ÕÓÒ¿ªÇø¼ä
+                    section_z = discretize([Z2 Z3],length_d.subsection_z); % SectionåŒºé—´  discretize å·¦é—­å³å¼€åŒºé—´
                     section_z_a = min( section_z(1),section_z(2) ); section_z_b = max( section_z(1),section_z(2) );
                     
                     if section_z_b == length_d.z
@@ -160,7 +160,7 @@ for i = 1:1:size(fv.faces,1)
                         Z = length_d.subsection_z(tag_subsection);
                         
                         if Z > max([Z3,Z2]) || Z < min([Z3,Z2])
-                            % ÎÞ½»µã
+                            % æ— äº¤ç‚¹
                         else
                             
                             sum_pos_i = sum(pos_xyz( :,1) ~= 0) + 1;
@@ -181,7 +181,7 @@ for i = 1:1:size(fv.faces,1)
     end
 end
 
-%% ¹ì¼£¹æ»®
+%% è½¨è¿¹è§„åˆ’
 
 
 traj_plan.pos_xyz = unique([-pos_xyz(:,3),pos_xyz],'rows');
@@ -217,232 +217,9 @@ end
 plot3(traj_plan.sort_xyz(:,2),traj_plan.sort_xyz(:,3),traj_plan.sort_xyz(:,4),'-')
 % [aaa,ccc,bbb] = unique(-pos_xyz(:,3),'rows');
 
-%%  µã·ÖÆ¬
+%%  ç‚¹åˆ†ç‰‡
 for i = 2:1:length(traj_plan.sort_xyz)
     traj_plan.sort_xyz(i,5) = traj_plan.sort_xyz(i,3) - traj_plan.sort_xyz(i-1,3);
 end
 
-%% ¾É°æ±¾´úÂë
-
-% %% ´¢´æµãÏà¹ØÐÅÏ¢  point
-% [c,~,ic] = unique([-fv.vertices(:,3),fv.vertices],'rows'); % cÎª²»ÖØ¸´×ø±êµã icÎª¾ÉµãÔÚÐÂµãÖÐËù´¦µÄÎ»ÖÃ
-% 
-% point.tag = zeros(length(c),1);
-% for i = 1:1:length(c)
-% point.tag(i) = i;
-% end
-% 
-% point.XYZ = c(:,2:4);
-% 
-% point.face_tag = zeros(length(c),100); % ´´½¨Ò»¸ö×ã¹»´óµÄ¾ØÕó£¬ÓÃÓÚ´æ·ÅÃæÆ¬Î»ÖÃ
-% point.face_position_tag = zeros(length(c),100); % ´´½¨Ò»¸ö×ã¹»´óµÄ¾ØÕó£¬ÓÃÓÚ´æ·ÅµãÔÚÃæÉÏËù´¦µÄÎ»ÖÃ
-% for i = 1:1:length(ic)
-%     j = sum(point.face_tag( ic(i),:) ~= 0) + 1; %·Ç0ÔªËØµÄ¸öÊý
-%     point.face_tag( ic(i),j ) = ceil(i/3); %½ÚµãËù°üº¬µÄÃæËùÔÚµÄÎ»ÖÃ
-%     
-%     compare_a = fv.vertices( fv.faces( ceil(i/3) ,1) ,3); %Ô­Ê¼ÃæËù¶ÔÓ¦µÄÖ¸¶¨Öá×ø±ê
-%     compare_b = fv.vertices( fv.faces( ceil(i/3) ,2) ,3);
-%     compare_c = fv.vertices( fv.faces( ceil(i/3) ,3) ,3);
-%     
-%    compare_abc = point.XYZ( ic(i) ,3) ; % ÅÅÐòºóµÄÃæËù¶ÔÓ¦µÄÖ¸¶¨Öá×ø±ê
-%    
-%    if compare_abc == max([compare_a,compare_b,compare_c]) %½ÚµãÔÚÃæÉÏËù´¦µÄÎ»ÖÃ£¬×î´óÎª1£¬×îÐ¡Îª3£¬ÖÐ¼äÎª2
-%        point.face_position_tag( ic(i),j ) = 1;
-%    else
-%        if compare_abc == min([compare_a,compare_b,compare_c])
-%            point.face_position_tag( ic(i),j ) = 3;
-%        else
-%            point.face_position_tag( ic(i),j ) = 2;
-%        end
-%    end  
-% end
-% 
-% assign_face_line = all(point.face_tag==0,1) ;%Ö¸¶¨ÐÐËùÔÚÎ»ÖÃ
-% point.face_tag(:,assign_face_line)= []; %É¾³ý¿Õ°×ÁÐ
-% point.face_position_tag(:,assign_face_line)= []; %É¾³ý¿Õ°×ÁÐ
-% 
-% clear i j c ic compare_abc compare_a compare_b compare_c assign_face_line
-% 
-% % line(point.XYZ(:,1),point.XYZ(:,2),point.XYZ(:,3));
-% 
-% %% ´´½¨°üÎ§ºÐ bounding_volume
-% % °üÎ§ºÐ±ß½ç
-% [extremum.x_max,extremum.x_min,extremum.y_max,extremum.y_min,extremum.z_max,extremum.z_min] =...
-%     deal( max(point.XYZ(:,1)),min(point.XYZ(:,1)),max(point.XYZ(:,2)),min(point.XYZ(:,2)),max(point.XYZ(:,3)),min(point.XYZ(:,3)) );
-% 
-% length_d.x = 1;length_d.y = 50;length_d.z = 20;
-% bounding_volume.tag = zeros( length_d.y*length_d.z,3 ); % XÖá·½Ïò²»½øÐÐ°üÈÝºÐ»®·Ö,YÖá·½Ïò»®·ÖÎª50¸ö£¬ZÖá·½Ïò»®·ÖÎª20¸ö
-% sum_ij = 0 ; bounding_volume.tag(:,1) = 1;
-% for i = 1:1:length_d.z
-%     for j = 1:1:length_d.y
-%         sum_ij = sum_ij +1;
-%         bounding_volume.tag(sum_ij,2) = j;
-%         bounding_volume.tag(sum_ij,3) = i;
-%     end
-% end
-% 
-% bounding_volume.value = zeros( length_d.y*length_d.z,6 );
-% 
-% sum_ij = 0;
-% for i = 1:1:length_d.z
-%     for j = 1:1:length_d.y
-%         sum_ij = sum_ij +1;
-%         bounding_volume.value(sum_ij,1) = extremum.x_min;
-%         bounding_volume.value(sum_ij,2) = extremum.x_max;
-%         bounding_volume.value(sum_ij,3) = extremum.y_min + (j-1)*(extremum.y_max-extremum.y_min)/length_d.y;
-%         bounding_volume.value(sum_ij,4) = extremum.y_min + j * (extremum.y_max-extremum.y_min)/length_d.y;
-%         bounding_volume.value(sum_ij,5) = extremum.z_min + (i-1)*(extremum.z_max-extremum.z_min)/length_d.z;
-%         bounding_volume.value(sum_ij,6) = extremum.z_min + i * (extremum.z_max-extremum.z_min)/length_d.z;
-%     end
-% end
-% 
-% bounding_volume.point_tag = zeros( length_d.y*length_d.z,100 ); % ´´½¨Ò»¸ö×ã¹»´óµÄ¾ØÕó£¬ÓÃÓÚ´æ·ÅµãµÄÎ»ÖÃ
-% length_d.dx = linspace(extremum.x_min,extremum.x_max,length_d.x+1);
-% length_d.dy = linspace(extremum.y_min,extremum.y_max,length_d.y+1);
-% length_d.dz = linspace(extremum.z_min,extremum.z_max,length_d.z+1); %¼ìË÷Çø¼ä
-% 
-% point.length_d_tag(:,1) = discretize(point.XYZ(:,1),length_d.dx); %Ëù´¦Çø¼äÎ»ÖÃ ×ó±ÕÓÒ¿ªÇø¼ä£¬×îºóÒ»¸öÇø¼äÎª×ó±ÕÓÒ±ÕÇø¼ä
-% point.length_d_tag(:,2) = discretize(point.XYZ(:,2),length_d.dy); %Ëù´¦Çø¼äÎ»ÖÃ
-% point.length_d_tag(:,3) = discretize(point.XYZ(:,3),length_d.dz); %Ëù´¦Çø¼äÎ»ÖÃ
-% 
-% 
-% for i = 1:1:length(point.tag)
-%     i_tag = (point.length_d_tag(i,3)-1)*50 + point.length_d_tag(i,2); %Ëù´¦Î»ÖÃ
-%     sum_i = sum(bounding_volume.point_tag( i_tag,:) ~= 0) + 1; %·Ç0ÔªËØµÄ¸öÊý
-%     bounding_volume.point_tag( i_tag,sum_i ) = point.tag(i); %Ëù°üº¬µÄ½ÚµãËùÔÚµÄÎ»ÖÃ
-% end
-% 
-% bounding_volume.point_tag(:,all(bounding_volume.point_tag==0,1))= []; %É¾³ý¿Õ°×ÁÐ
-% assign_line = all(bounding_volume.point_tag==0,2) ;%Ö¸¶¨ÐÐËùÔÚÎ»ÖÃ
-% bounding_volume.point_tag(assign_line,:)= []; %É¾³ý¿Õ°×ÐÐ
-% bounding_volume.tag(assign_line,:)= []; %É¾³ý¿Õ°×ÐÐ
-% bounding_volume.value(assign_line,:)= []; %É¾³ý¿Õ°×ÐÐ
-% 
-% clear  i j sum_i sum_ij i_tag;
-% 
-% %% ¹ì¼£¹æ»®¡ª¡ªÉú³É½»µã  trajectory planning
-% 
-% segment_num = 40; %ÑØËùÐè¹æ»®µÄ·½Ïò»®·ÖµÄ¶ÎÊý
-% traj_plan.tag = zeros( segment_num+1 ,2);
-% traj_plan.volume = zeros( segment_num+1 ,length_d.z);
-% traj_plan.face_tag = zeros( segment_num+1 ,5000);
-% traj_plan.face_sort = zeros( segment_num+1 ,5000);
-% [traj_plan.pos_X ,traj_plan.pos_Y ,traj_plan.pos_Z ] = deal( zeros( segment_num+1 ,2000) );
-% 
-% for i = 1:1:segment_num+1 %¸ÃÑ­»·ÊÇÎªÁËÒÆ¶¯½ØÃæµÄÎ»ÖÃ
-%     traj_plan.tag(i,1) = i; %±êÇ©£¬´Ó×îÉÏ·½Íù×îÏÂ·½×ß
-%     traj_plan.tag(i,2) = extremum.z_max - (i-1)*(extremum.z_max-extremum.z_min)/segment_num; %½ØÃæ±êÇ©Î»ÖÃ
-%     if i ==  1
-%         tag_z = 20;
-%     else
-%         tag_z = ceil( (segment_num+2-i)/2 );
-%     end
-%     tag_volume = flip( find(bounding_volume.tag(:,3) == tag_z ) ); %¶ÔÓÚÒ»¸öÐÐÏòÁ¿£¬Ê¹ÓÃflip(A)Ä¬ÈÏ¿ÉÒÔ½«ÁÐ±í×óÓÒ·­×ª
-%     traj_plan.volume(i , 1:length(tag_volume) ) = tag_volume'; %½«¶ÔÓ¦µÄºÐ×Ó·ÅÈë¶ÔÓ¦µÄÎ»ÖÃ
-%     
-%     for i_volume = 1:1:sum(traj_plan.volume( i,:) ~= 0) %°üº¬¶àÉÙ¸öºÐ×Ó£¬Ñ­»·¾ÍÓÐ¶àÉÙ´Î
-%         for i_point = 1:1:sum(bounding_volume.point_tag ( traj_plan.volume(i,i_volume) ,:) ~= 0) %ºÐ×ÓÀï°üº¬¶àÉÙ¸öµã£¬Ñ­»·¾ÍÓÐ¶àÉÙ´Î
-%             i_point_line = bounding_volume.point_tag ( traj_plan.volume(i,i_volume) , i_point);  %µãÔÚºÐ×ÓÖÐµÄÖµ£¬¶ÔÓ¦µÄÒ²ÊÇµãËù±»°üº¬ÃæÖÐµÄÎ»ÖÃ
-%             for i_face = 1:1:sum( point.face_position_tag( i_point_line ,:) ~= 0) %Ã¿¸öµã±»°üº¬ÓÚ¶àÉÙ¸öÃæÖÐ£¬Ñ­»·¾ÍÓÐ¶àÉÙ´Î
-%                 
-%                 sum_i = sum(traj_plan.face_tag( i,:) ~= 0) + 1; %·Ç0ÔªËØµÄ¸öÊý
-%                 traj_plan.face_tag(i,sum_i) = point.face_tag( i_point_line ,i_face);
-%       
-%             end
-%             
-%         end
-% 
-%     end
-%     % Èý´ÎÑ­»·ÒÑ¾­¶ÁÈ¡ÁËËùÓÐµÄÃæÆ¬
-%     
-%     AAA = unique( traj_plan.face_tag(i,:)); % traj_plan.face_tag ¾ØÕóµÄÁÐÎ¬¶ÈÒª´ó£¬²»È»µÚÈýÐÐ»á±¨´í¡ª¡ªË÷Òý³¬³ö¾ØÕóÎ¬¶È
-%     length_face_tag = sum( AAA  ~= 0);
-%     traj_plan.face_sort(i,1:length_face_tag) = AAA(2:end) ; %µÚÒ»¸öÖµÎªÁã£¬ËùÒÔ´ÓµÚ¶þ¸ö¿ªÊ¼
-%     
-%     % ×îÖØÒªµÄÑ­»·£¬Ö÷ÒªÊÇÇó¹ì¼£ÏßµÄ½»µã
-%     for i_traj = 1:1:length_face_tag % ½ØÃæÓëÃ¿¸öÃæÆ¬Ïà½»
-%         face_pos = traj_plan.face_sort(i,i_traj); %ÅÅÐòºóÃæËùÔÚµÄÎ»ÖÃ
-%  
-%         compare_a = fv.vertices( fv.faces( face_pos ,1) ,3); %Ô­Ê¼ÃæËù¶ÔÓ¦µÄÖ¸¶¨Öá×ø±ê
-%         compare_b = fv.vertices( fv.faces( face_pos ,2) ,3);
-%         compare_c = fv.vertices( fv.faces( face_pos ,3) ,3);
-%         if traj_plan.tag(i,2) > max([compare_a,compare_b,compare_c]) %ÃæÆ¬ÖÐÒªÓÐµãµÄ×ø±ê´óÓÚÖ¸¶¨Öá×ø±ê£¬²ÅÓÐ½»µã
-%         else
-%             Z = traj_plan.tag(i,2);
-%             [X1,Y1,Z1] = deal( fv.vertices( fv.faces( face_pos ,1) ,1) , fv.vertices( fv.faces( face_pos ,1) ,2) ,fv.vertices( fv.faces( face_pos ,1) ,3) );
-%             [X2,Y2,Z2] = deal( fv.vertices( fv.faces( face_pos ,2) ,1) , fv.vertices( fv.faces( face_pos ,2) ,2) ,fv.vertices( fv.faces( face_pos ,2) ,3) );
-%             [X3,Y3,Z3] = deal( fv.vertices( fv.faces( face_pos ,3) ,1) , fv.vertices( fv.faces( face_pos ,3) ,2) ,fv.vertices( fv.faces( face_pos ,3) ,3) );
-%   
-%             for i_side =1:1:3 %Ò»¸öÃæ¶ÔÓ¦ÈýÌõ±ß
-%                 switch i_side
-%                     
-%                     case 1
-%                         X = (X1-X2)*(Z-Z2)/(Z1-Z2) + X2;
-%                         Y = (Y1-Y2)*(Z-Z2)/(Z1-Z2) + Y2;
-%                         if Z > max([Z1,Z2]) || Z < min([Z1,Z2])
-%                             % ÎÞ½»µã
-%                         else
-%                             sum_pos_i = sum(traj_plan.pos_X( i,:) ~= 0) + 1;
-%                             traj_plan.pos_X ( i,sum_pos_i) = X;
-%                             traj_plan.pos_Y ( i,sum_pos_i) = Y;
-%                             traj_plan.pos_Z ( i,sum_pos_i) = Z;
-%                             
-%                         end
-%                         
-%                     case 2
-%                         X = (X1-X3)*(Z-Z3)/(Z1-Z3) + X3;
-%                         Y = (Y1-Y3)*(Z-Z3)/(Z1-Z3) + Y3;
-%                         if Z > max([Z1,Z3]) || Z < min([Z1,Z3])
-%                             % ÎÞ½»µã
-%                         else
-%                             sum_pos_i = sum(traj_plan.pos_X( i,:) ~= 0) + 1;
-%                             traj_plan.pos_X ( i,sum_pos_i) = X;
-%                             traj_plan.pos_Y ( i,sum_pos_i) = Y;
-%                             traj_plan.pos_Z ( i,sum_pos_i) = Z;
-%                             
-%                         end
-%                     case 3
-%                         X = (X3-X2)*(Z-Z2)/(Z3-Z2) + X2;
-%                         Y = (Y3-Y2)*(Z-Z2)/(Z3-Z2) + Y2;
-%                         if Z > max([Z3,Z2]) || Z < min([Z3,Z2])
-%                             % ÎÞ½»µã
-%                         else
-%                             sum_pos_i = sum(traj_plan.pos_X( i,:) ~= 0) + 1;
-%                             traj_plan.pos_X ( i,sum_pos_i) = X;
-%                             traj_plan.pos_Y ( i,sum_pos_i) = Y;
-%                             traj_plan.pos_Z ( i,sum_pos_i) = Z;
-%                             
-%                         end
-%                 end
-%                 
-%             end
-%         end
-%     end
-% end
-%     
-% clear  X1 Y1 Z1 X2 Y2 Z2 X3 Y3 Z3 X Y Z
-% clear i tag_z i_face i_point i_point_line i_volume sum_i AAA length_face_tag   
-% 
-% %% ¹ì¼£¹æ»®¡ª¡ªÅÅÐò
-% length_point = 1;
-% traj_plan_XYZ = zeros(20000,4);
-% for i = 1:1:segment_num+1
-% 
-%     XYZ(:,1) = (traj_plan.pos_Y(i,:))' ;
-%     XYZ(:,2) = (traj_plan.pos_X(i,:))' ;
-%     XYZ(:,3) = (traj_plan.pos_Y(i,:))' ;
-%     XYZ(:,4) = (traj_plan.pos_Z(i,:))' ;
-%     AAA = unique ( XYZ,'rows' );
-%     
-%     length_xyz = size( AAA,1)-1;
-%     traj_plan_XYZ(length_point:length_point+length_xyz-1 ,1) = i;
-%     traj_plan_XYZ(length_point:length_point+length_xyz-1 ,2:4) = AAA(2:end,2:4);
-%     length_point = length_point+length_xyz;
-%     
-%     
-% end
-% 
-% traj_plan_XYZ(all(traj_plan_XYZ==0,2) ,:)= []; %É¾³ý¿Õ°×ÐÐ
-% 
-% line(traj_plan_XYZ(:,2),traj_plan_XYZ(:,3),traj_plan_XYZ(:,4));
 toc
